@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ARPG 3D Concept</title>
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #1a1d24; }
+      canvas { display: block; }
+      /* UI above the canvas, which is positioned in low-res mode. */
+      #hud, #status, #toolbar, #scrubber, #loadout { z-index: 2; }
+      #hud {
+        position: fixed; top: 12px; left: 12px; color: #cfd6e4;
+        font: 13px/1.5 system-ui, sans-serif; pointer-events: none;
+        background: rgba(0, 0, 0, 0.35); padding: 8px 12px; border-radius: 6px;
+      }
+      .label {
+        color: #e8ecf4; font: 11px system-ui, sans-serif; white-space: nowrap;
+        background: rgba(0, 0, 0, 0.45); padding: 2px 6px; border-radius: 4px;
+      }
+      #toolbar { position: fixed; top: 12px; right: 12px; display: flex; gap: 6px; }
+      #toolbar button {
+        font: 12px system-ui, sans-serif; color: #cfd6e4; cursor: pointer;
+        background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 6px 10px; border-radius: 6px;
+      }
+      #toolbar button.on { background: #4f7cff; border-color: #4f7cff; color: #fff; }
+      #toolbar button[hidden] { display: none; }
+      #scrubber {
+        position: fixed; bottom: 12px; right: 12px;
+        display: flex; align-items: center; gap: 10px;
+        background: rgba(0, 0, 0, 0.45); padding: 6px 10px; border-radius: 6px;
+        font: 12px system-ui, sans-serif; color: #cfd6e4;
+      }
+      #scrubber[hidden] { display: none; }
+      #scrubber button {
+        font: inherit; color: #cfd6e4; cursor: pointer; background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15); padding: 4px 8px; border-radius: 5px;
+      }
+      #scrubber button.on { background: #4f7cff; border-color: #4f7cff; color: #fff; }
+      #scrubber input[type='range'] { width: 150px; accent-color: #4f7cff; }
+      /* Fixed width so changing text (segment names, digits) never shifts the slider. */
+      #scrubber .readout {
+        width: 220px; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        font-variant-numeric: tabular-nums; padding: 4px 8px; border-radius: 5px;
+        background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      #loadout {
+        position: fixed; bottom: 12px; left: 12px; display: flex; gap: 10px;
+        background: rgba(0, 0, 0, 0.45); padding: 8px 10px; border-radius: 6px;
+        font: 12px system-ui, sans-serif; color: #cfd6e4;
+      }
+      #loadout label { display: flex; align-items: center; gap: 6px; }
+      #loadout select {
+        font: inherit; color: #e8ecf4; background: #2a2f3a;
+        border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; padding: 3px 4px;
+      }
+      #status {
+        position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+        display: flex; align-items: center; gap: 10px; pointer-events: none;
+        background: rgba(0, 0, 0, 0.45); padding: 6px 10px; border-radius: 6px;
+        font: 12px system-ui, sans-serif; color: #e8ecf4; font-variant-numeric: tabular-nums;
+      }
+      #status[hidden] { display: none; }
+      #status .bar { width: 180px; height: 10px; background: #3a1d1d; border-radius: 3px; overflow: hidden; }
+      #status .fill { height: 100%; width: 100%; background: #d64545; transition: width 0.15s; }
+      #status .hp { width: 150px; }
+      .hpbar { width: 44px; height: 5px; background: rgba(0, 0, 0, 0.6); border-radius: 2px; overflow: hidden; }
+      .hpbar > div { height: 100%; background: #d64545; }
+      .damage {
+        font: 700 16px system-ui, sans-serif; text-shadow: 0 1px 2px #000, 0 0 4px #000;
+        pointer-events: none;
+      }
+      /* Too narrow for the scrubber and loadout side by side: lift the scrubber above it. */
+      @media (max-width: 900px) {
+        #scrubber { bottom: 60px; }
+      }
+      /* HP bar would cover the controls hint: drop it below. */
+      @media (max-width: 1100px) {
+        #status { top: 52px; left: 12px; transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="status"><div class="bar"><div class="fill"></div></div><span class="hp"></span><span class="kills"></span></div>
+    <div id="hud">WASD to move · Shift to run · Left-click to attack · Scroll to zoom</div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
