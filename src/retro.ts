@@ -2,8 +2,8 @@ import * as THREE from 'three';
 
 /** Low-res mode tuning. */
 export const RETRO = {
-  /** Vertical resolution of the frame. Width follows from the aspect (240 → 320). */
-  height: 240,
+  /** Vertical resolution of the frame. Width follows from the aspect (480 → 640). */
+  height: 480,
   aspect: 4 / 3,
   /** World units visible top to bottom at zoom 1. */
   viewHeight: 11.5,
